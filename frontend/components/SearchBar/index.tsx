@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
  *
  * SearchBar
  *
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 interface Props {
   search: string;
   setSearch: any;

@@ -5,7 +5,7 @@
  *
  */
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { navigate } from "@/utils/actions";
@@ -65,7 +65,14 @@ const pages = [
 export default function SideBar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const user: any = JSON.parse(localStorage.getItem("auth") ?? "{}");
+  const [auth, setAuth] = useState<any>({});
+
+  useEffect(() => {
+    if (localStorage) {
+      const a = localStorage.getItem("auth") ? JSON.parse(localStorage.getItem("auth") ?? "{}") : {};
+      setAuth(a);
+    }
+  }, []);
   return (
     <div className="p-4 fixed w-full md:w-fit h-fit md:h-screen z-[900]" onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <div className="p-2 bg-base-100 shadow-md w-full md:w-fit h-fit md:h-full flex gap-4 flex-row md:flex-col">
@@ -95,7 +102,7 @@ export default function SideBar() {
               />
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
-            {open && user?.username}
+            {open && auth?.username}
           </div>
           <div
             className={`min-w-10 w-full h-10 flex gap-2 px-2 ${!open && "justify-center"} items-center cursor-pointer hover:bg-[#ff980020]`}

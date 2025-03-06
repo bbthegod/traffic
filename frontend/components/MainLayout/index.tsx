@@ -17,16 +17,18 @@ interface Props {
 
 export default function MainLayout(props: Props) {
   React.useEffect(() => {
-    const auth = localStorage.getItem("auth");
-    try {
-      if (!auth) {
+    if (localStorage) {
+      const auth = localStorage.getItem("auth");
+      try {
+        if (!auth) {
+          navigate("/login");
+          window.location.href = "login";
+        }
+      } catch (err: any) {
+        localStorage.removeItem("auth");
         navigate("/login");
         window.location.href = "login";
       }
-    } catch (err: any) {
-      localStorage.removeItem("auth");
-      navigate("/login");
-      window.location.href = "login";
     }
   }, []);
 

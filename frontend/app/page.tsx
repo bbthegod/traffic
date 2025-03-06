@@ -20,7 +20,7 @@ import { SnackbarContext } from "@/contexts/SnackbarContext";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export const monthOptions = {
+const monthOptions = {
   responsive: true,
   plugins: {
     legend: {
@@ -33,7 +33,7 @@ export const monthOptions = {
   },
 };
 
-export const LocationOptions = {
+const LocationOptions = {
   responsive: true,
   plugins: {
     legend: {

@@ -1,19 +1,13 @@
-FROM node:18.15-alpine as builder
+FROM node:20.18-alpine as builder
 
 WORKDIR /app
 COPY . .
 
 RUN yarn
 
-ENV NX_IMAGE_SERVICE_URL=http://192.168.1.162:9000
-ENV NX_BASE_URL=http://192.168.1.162:8000
-ENV NX_WS_URL=ws://192.168.1.162:8000
+ENV BASE_URL=admin:8000
 
-RUN npx nx build admin --configuration=production --skip-nx-cache
+RUN yarn build
 
-FROM nginx:latest
-
-COPY --from=builder /app/dist/apps/admin /usr/share/nginx/html
-COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+CMD ["yarn", "start"]

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /*
  *
  * Select
@@ -13,7 +14,7 @@ export default function Select(props: any) {
       <select {...field} {...props} className={`select select-bordered ${meta.error ? "input-error" : ""} w-full`}>
         {props.children}
       </select>
-      {meta.error && meta.touched && <p className='mt-2 text-error text-xs font-semibold'>{meta.error}</p>}
+      {meta.error && meta.touched && <p className="mt-2 text-error text-xs font-semibold">{meta.error}</p>}
     </div>
-  )
+  );
 }
