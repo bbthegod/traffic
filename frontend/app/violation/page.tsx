@@ -27,6 +27,11 @@ const dataset: DataSet[] = [
     type: "string",
   },
   {
+    title: "Biển Số",
+    value: "plate",
+    type: "string",
+  },
+  {
     title: "Tên Phương Tiện",
     value: "vehicleName",
     type: "string",
@@ -39,11 +44,6 @@ const dataset: DataSet[] = [
       const date = new Date(value);
       return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}  ${date.getHours()}:${date.getMinutes()}`;
     },
-  },
-  {
-    title: "Loại Vi Phạm",
-    value: "violationType",
-    type: "string",
   },
   {
     title: "Trạng Thái",

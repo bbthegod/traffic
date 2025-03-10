@@ -31,6 +31,7 @@ export interface User {
 export interface ViolationType {
   _id: string;
   name: string;
+  details: string;
   amountFrom: string;
   amountTo: number;
   vehicleType: VehicleType;
@@ -40,6 +41,7 @@ export interface ViolationType {
 export interface Violation {
   _id: string;
   officerId: string;
+  plate: string;
   driverName: string;
   driverDob: string;
   driverNationality: string;

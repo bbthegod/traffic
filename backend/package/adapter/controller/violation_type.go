@@ -83,6 +83,7 @@ func (controller *violationTypeController) Create(ctx *gin.Context) error {
 
 	violationType := new(model.ViolationType)
 	violationType.Name = params.Name
+	violationType.Details = params.Details
 	violationType.AmountFrom = params.AmountFrom
 	violationType.AmountTo = params.AmountTo
 	violationType.VehicleType = params.VehicleType
@@ -115,6 +116,7 @@ func (controller *violationTypeController) Update(ctx *gin.Context) error {
 
 	violationType := new(model.ViolationType)
 	violationType.Name = params.Name
+	violationType.Details = params.Details
 	violationType.AmountFrom = params.AmountFrom
 	violationType.AmountTo = params.AmountTo
 	violationType.VehicleType = params.VehicleType

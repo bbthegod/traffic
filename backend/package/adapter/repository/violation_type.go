@@ -117,6 +117,7 @@ func (repository *violationTypeRepository) Update(id primitive.ObjectID, violati
 
 	update := bson.M{
 		"name":        violationType.Name,
+		"details":     violationType.Details,
 		"amountFrom":  violationType.AmountFrom,
 		"amountTo":    violationType.AmountTo,
 		"vehicleType": violationType.VehicleType,

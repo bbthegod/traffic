@@ -36,8 +36,11 @@ const dataset: DataSet[] = [
   },
   {
     title: "Loại Vi Phạm",
-    value: "violationType.name",
+    value: "violationType",
     type: "string",
+    format: (value: any) => {
+      return value.map((element: any) => element.name)?.join(", ");
+    },
   },
   {
     title: "Địa chỉ vi phạm (Đường)",
@@ -121,6 +124,11 @@ const datasetDriver: DataSet[] = [
   {
     title: "Tên Phương Tiện",
     value: "vehicleName",
+    type: "string",
+  },
+  {
+    title: "Biển Số",
+    value: "plate",
     type: "string",
   },
 ];

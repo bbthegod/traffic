@@ -143,6 +143,7 @@ func (repository *violationRepository) GetOne(id primitive.ObjectID) (*model.Vio
 		"officerId.name":            1,
 		"officerId.position":        1,
 		"officerId.policeId":        1,
+		"plate":                     1,
 		"driverName":                1,
 		"driverDob":                 1,
 		"driverNationality":         1,
@@ -180,7 +181,6 @@ func (repository *violationRepository) GetOne(id primitive.ObjectID) (*model.Vio
 			"foreignField": "_id",
 			"as":           "violationType",
 		}},
-		{"$unwind": "$violationType"},
 		{"$match": bson.M{"_id": id}},
 		projection,
 	})
@@ -229,6 +229,7 @@ func (repository *violationRepository) Update(id primitive.ObjectID, violation *
 
 	update := bson.M{
 		"officerId":         violation.OfficerId,
+		"plate":             violation.Plate,
 		"driverName":        violation.DriverName,
 		"driverDob":         violation.DriverDOB,
 		"driverNationality": violation.DriverNationality,

@@ -26,6 +26,11 @@ const dataset: DataSet[] = [
     type: "string",
   },
   {
+    title: "Chi Tiết",
+    value: "details",
+    type: "string",
+  },
+  {
     title: "Loại Xe",
     value: "vehicleType",
     type: "string",

@@ -7,6 +7,7 @@ import (
 type Violation struct {
 	Id                primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	OfficerId         interface{}        `json:"officerId,omitempty" bson:"officerId,omitempty"`
+	Plate             string             `json:"plate,omitempty" bson:"plate,omitempty"`
 	DriverName        string             `json:"driverName,omitempty" bson:"driverName,omitempty"`
 	DriverDOB         string             `json:"driverDob,omitempty" bson:"driverDob,omitempty"`
 	DriverNationality string             `json:"driverNationality,omitempty" bson:"driverNationality,omitempty"`
@@ -39,24 +40,25 @@ type ViolationLocationReport struct {
 }
 
 type ViolationBodyParams struct {
-	OfficerId         primitive.ObjectID `json:"officerId" bson:"officerId,omitempty"`
-	DriverName        string             `json:"driverName" bson:"driverName,omitempty"`
-	DriverDOB         string             `json:"driverDob" bson:"driverDob,omitempty"`
-	DriverNationality string             `json:"driverNationality" bson:"driverNationality,omitempty"`
-	DriverAddress     string             `json:"driverAddress" bson:"driverAddress,omitempty"`
-	DriverJob         string             `json:"driverJob" bson:"driverJob,omitempty"`
-	DriverId          string             `json:"driverId" bson:"driverId,omitempty"`
-	DriverIdDate      string             `json:"driverIdDate" bson:"driverIdDate,omitempty"`
-	DriverIdAddress   string             `json:"driverIdAddress" bson:"driverIdAddress,omitempty"`
-	VehicleName       string             `json:"vehicleName" bson:"vehicleName,omitempty"`
-	ViolationDate     primitive.DateTime `json:"violationDate" bson:"violationDate,omitempty"`
-	ViolationType     primitive.ObjectID `json:"violationType" bson:"violationType,omitempty"`
-	LocationStreet    string             `json:"locationStreet" bson:"locationStreet,omitempty"`
-	LocationDistrict  string             `json:"locationDistrict" bson:"locationDistrict,omitempty"`
-	LocationCity      string             `json:"locationCity" bson:"locationCity,omitempty"`
-	OfficerComment    string             `json:"officerComment" bson:"officerComment,omitempty"`
-	DriverComment     string             `json:"driverComment" bson:"driverComment,omitempty"`
-	ItemsKepp         string             `json:"itemsKepp" bson:"itemsKepp,omitempty"`
-	Penalty           int                `json:"penalty" bson:"penalty,omitempty"`
-	Status            string             `json:"status" bson:"status,omitempty"`
+	OfficerId         primitive.ObjectID   `json:"officerId" bson:"officerId,omitempty"`
+	Plate             string               `json:"plate" bson:"plate,omitempty"`
+	DriverName        string               `json:"driverName" bson:"driverName,omitempty"`
+	DriverDOB         string               `json:"driverDob" bson:"driverDob,omitempty"`
+	DriverNationality string               `json:"driverNationality" bson:"driverNationality,omitempty"`
+	DriverAddress     string               `json:"driverAddress" bson:"driverAddress,omitempty"`
+	DriverJob         string               `json:"driverJob" bson:"driverJob,omitempty"`
+	DriverId          string               `json:"driverId" bson:"driverId,omitempty"`
+	DriverIdDate      string               `json:"driverIdDate" bson:"driverIdDate,omitempty"`
+	DriverIdAddress   string               `json:"driverIdAddress" bson:"driverIdAddress,omitempty"`
+	VehicleName       string               `json:"vehicleName" bson:"vehicleName,omitempty"`
+	ViolationDate     primitive.DateTime   `json:"violationDate" bson:"violationDate,omitempty"`
+	ViolationType     []primitive.ObjectID `json:"violationType" bson:"violationType,omitempty"`
+	LocationStreet    string               `json:"locationStreet" bson:"locationStreet,omitempty"`
+	LocationDistrict  string               `json:"locationDistrict" bson:"locationDistrict,omitempty"`
+	LocationCity      string               `json:"locationCity" bson:"locationCity,omitempty"`
+	OfficerComment    string               `json:"officerComment" bson:"officerComment,omitempty"`
+	DriverComment     string               `json:"driverComment" bson:"driverComment,omitempty"`
+	ItemsKepp         string               `json:"itemsKepp" bson:"itemsKepp,omitempty"`
+	Penalty           int                  `json:"penalty" bson:"penalty,omitempty"`
+	Status            string               `json:"status" bson:"status,omitempty"`
 }

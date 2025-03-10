@@ -32,7 +32,8 @@ const getCurrentTime = (date?: string) => {
 };
 
 const validationSchema = Yup.object().shape({
-  officerId: Yup.string().required("Trường này không được để trống !"),
+  officerId: Yup.mixed().required("Trường này không được để trống !"),
+  plate: Yup.string().required("Trường này không được để trống !"),
   driverName: Yup.string().required("Trường này không được để trống !"),
   driverDob: Yup.string().required("Trường này không được để trống !"),
   driverNationality: Yup.string().required("Trường này không được để trống !"),
@@ -43,7 +44,7 @@ const validationSchema = Yup.object().shape({
   driverIdAddress: Yup.string(),
   vehicleName: Yup.string().required("Trường này không được để trống !"),
   violationDate: Yup.string().required("Trường này không được để trống !"),
-  violationType: Yup.string().required("Trường này không được để trống !"),
+  violationType: Yup.array().required("Trường này không được để trống !"),
   locationStreet: Yup.string().required("Trường này không được để trống !"),
   locationDistrict: Yup.string().required("Trường này không được để trống !"),
   locationCity: Yup.string().required("Trường này không được để trống !"),
@@ -105,6 +106,7 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
         <Formik
           initialValues={{
             officerId: data ? data.officerId : "",
+            plate: data ? data.plate : "",
             driverName: data ? data.driverName : "",
             driverDob: data ? data.driverDob : "",
             driverNationality: data ? data.driverNationality : "",
@@ -177,6 +179,9 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
                       <TextField name="vehicleName" label="Tên Phương Tiện" type="text" />
                     </div>
                     <div>
+                      <TextField name="plate" label="Biển Số" type="text" />
+                    </div>
+                    <div>
                       <TextField name="violationDate" label="Ngày Xử Phạt" type="datetime-local" />
                     </div>
                     <div>
@@ -239,20 +244,48 @@ const AutocompleteViolationType = (props: AutocompleteProps) => {
   const [field, meta] = useField(props.name);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [results, setResults] = useState("");
   const ref = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    if (typeof field.value === "object") {
-      const event = {
-        target: {
-          name: props.name,
-          value: field.value._id,
-        },
-      };
-      field.onChange(event);
-      setSearch(`${field.value.name} - ${formatVehicleType(field.value.vehicleType)}`);
+    const values = field.value.map((item: any) => {
+      if (typeof item === "object") {
+        return item._id;
+      }
+      return item;
+    });
+    const displayName = field.value
+      .map((item: any) => {
+        if (typeof item === "object") {
+          return item.name;
+        }
+        if (typeof item === "string") {
+          return props.data.find((i: any) => i._id === item)?.name;
+        }
+        return item;
+      })
+      .join(", ");
+    const event = {
+      target: {
+        name: props.name,
+        value: values,
+      },
+    };
+    field.onChange(event);
+    setResults(displayName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  const update = (value: string) => {
+    const index = field.value.indexOf(value);
+    const list = [...field.value];
+    if (index > -1) {
+      list.splice(index, 1);
+    } else {
+      list.push(value);
     }
-  }, [open, field, props.name]);
+    return list;
+  };
 
   return (
     <div className="form-control w-full">
@@ -272,13 +305,6 @@ const AutocompleteViolationType = (props: AutocompleteProps) => {
             strokeWidth={1.5}
             stroke="currentColor"
             onClick={() => {
-              const event = {
-                target: {
-                  name: props.name,
-                  value: "",
-                },
-              };
-              field.onChange(event);
               setSearch("");
               setOpen(false);
             }}
@@ -300,19 +326,21 @@ const AutocompleteViolationType = (props: AutocompleteProps) => {
                     const event = {
                       target: {
                         name: props.name,
-                        value: item._id,
+                        value: update(item._id),
                       },
                     };
                     field.onChange(event);
-                    setSearch(`${item.name} - ${formatVehicleType(item.vehicleType)}`);
                     setOpen(false);
                   }}
                 >
-                  <a className={`${item._id === field.value ? "active" : ""}`}>{`${item.name} - ${formatVehicleType(item.vehicleType)}`}</a>
+                  <a className={`cursor-pointer ${field.value?.some((i: any) => i === item._id) ? "active" : ""}`}>{`${
+                    item.name
+                  } - ${formatVehicleType(item.vehicleType)}`}</a>
                 </li>
               ))}
           </ul>
         )}
+        <p className=" p-0 m-0 text-sm w-full mt-2">{results}</p>
       </div>
     </div>
   );

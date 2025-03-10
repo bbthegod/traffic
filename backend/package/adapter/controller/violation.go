@@ -83,6 +83,7 @@ func (controller *violationController) Create(ctx *gin.Context) error {
 
 	violation := new(model.Violation)
 	violation.OfficerId = params.OfficerId
+	violation.Plate = params.Plate
 	violation.DriverName = params.DriverName
 	violation.DriverDOB = params.DriverDOB
 	violation.DriverNationality = params.DriverNationality
@@ -130,6 +131,7 @@ func (controller *violationController) Update(ctx *gin.Context) error {
 
 	violation := new(model.Violation)
 	violation.OfficerId = params.OfficerId
+	violation.Plate = params.Plate
 	violation.DriverName = params.DriverName
 	violation.DriverDOB = params.DriverDOB
 	violation.DriverNationality = params.DriverNationality

@@ -24,6 +24,7 @@ interface Props {
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Trường này không được để trống !"),
+  details: Yup.string().required("Trường này không được để trống !"),
   amountFrom: Yup.string().required("Trường này không được để trống !"),
   amountTo: Yup.string().required("Trường này không được để trống !"),
   vehicleType: Yup.string().required("Trường này không được để trống !"),
@@ -55,6 +56,7 @@ export default function ViolationTypeDialog({ open, setOpen, data, handleSubmit 
         <Formik
           initialValues={{
             name: data ? data.name : "",
+            details: data ? data.details : "",
             amountFrom: data ? data.amountFrom : "",
             amountTo: data ? data.amountTo : "",
             vehicleType: data ? data.vehicleType : "",
@@ -71,6 +73,9 @@ export default function ViolationTypeDialog({ open, setOpen, data, handleSubmit 
                   <div className="mt-2.5 grid grid-cols-2 gap-4">
                     <div className="col-span-2">
                       <TextField name="name" label="Tên Vi Phạm" type="text" />
+                    </div>
+                    <div className="col-span-2">
+                      <TextField name="details" label="Chi Tiết" type="text" />
                     </div>
                     <div>
                       <TextField name="amountFrom" label="Mức Phạt Từ" type="number" />
