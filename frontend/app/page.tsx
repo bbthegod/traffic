@@ -53,6 +53,7 @@ export default function UserPage() {
   //====================================== State ======================================
   const [month, setMonth] = useState([]);
   const [location, setLocation] = useState([]);
+  const [type, setType] = useState("MONTH");
   //====================================== Constant ======================================
   const getViolations = useCallback(() => {
     query("/violation/report")
@@ -98,8 +99,16 @@ export default function UserPage() {
   return (
     <MainLayout>
       <Header title="Thống Kê" subtitle="Bảng" />
-      <Bar options={monthOptions} data={monthData} />
-      <Bar options={LocationOptions} data={locationData} />
+
+      <div className="form-control w-[300px] my-8">
+        <label className="label p-0 m-0 text-sm mb-2">Chọn Thống Kê</label>
+        <select value={type} onChange={(e) => setType(e.target.value)} className={`select select-bordered w-full`}>
+          <option value="MONTH">Báo cáo theo tháng</option>
+          <option value="LOCATION">Báo cáo theo khu vực</option>
+        </select>
+      </div>
+      {type === "MONTH" && <Bar options={monthOptions} data={monthData} />}
+      {type === "LOCATION" && <Bar options={LocationOptions} data={locationData} />}
     </MainLayout>
   );
 }

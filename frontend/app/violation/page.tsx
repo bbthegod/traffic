@@ -37,6 +37,14 @@ const dataset: DataSet[] = [
     type: "string",
   },
   {
+    title: "Loại Vi Phạm",
+    value: "violationType",
+    type: "string",
+    format: (value: any) => {
+      return value.map((element: any) => element.name)?.join(", ");
+    },
+  },
+  {
     title: "Ngày Xử Phạt",
     value: "violationDate",
     type: "string",
