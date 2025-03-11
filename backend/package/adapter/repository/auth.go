@@ -32,14 +32,18 @@ func (repository *authRepository) Login(auth *model.User) (*model.User, *string,
 	err := repository.userCollection.FindOne(ctx, bson.M{"username": auth.Username}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return nil, nil, http.StatusUnauthorized, errors.New("user not found")
+			return nil, nil, http.StatusUnauthorized, errors.New("user-not-found")
 		}
 		return nil, nil, http.StatusInternalServerError, err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(auth.Password))
 	if err != nil {
-		return nil, nil, http.StatusUnauthorized, errors.New("student code or password incorrect")
+		return nil, nil, http.StatusUnauthorized, errors.New("username-or-password-incorrect")
+	}
+
+	if user.Status != "ACTIVE" {
+		return nil, nil, http.StatusUnauthorized, errors.New("user-not-active")
 	}
 
 	token, err := common.EncodeToken(user)
@@ -58,14 +62,14 @@ func (repository *authRepository) ChangePassword(username string, oldPassword st
 	err := repository.userCollection.FindOne(ctx, bson.M{"username": username}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return http.StatusNotFound, errors.New("user not found")
+			return http.StatusNotFound, errors.New("user-not-found")
 		}
 		return http.StatusInternalServerError, err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(oldPassword))
 	if err != nil {
-		return http.StatusUnauthorized, errors.New("student code or password incorrect")
+		return http.StatusUnauthorized, errors.New("username-or-password-incorrect")
 	}
 
 	password, err := common.EncodePassword(newPassword)
@@ -78,7 +82,7 @@ func (repository *authRepository) ChangePassword(username string, oldPassword st
 
 	updated, err := repository.userCollection.UpdateOne(ctx, bson.M{"_id": user.Id}, bson.M{"$set": update})
 	if updated.MatchedCount != 1 {
-		return http.StatusNotFound, errors.New("user not found")
+		return http.StatusNotFound, errors.New("user-not-found")
 	}
 	if err != nil {
 		return http.StatusInternalServerError, err

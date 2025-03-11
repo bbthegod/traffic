@@ -16,11 +16,14 @@ import { mutation } from "@/utils/services";
 import { SnackbarContext } from "@/contexts/SnackbarContext";
 import { Form, Formik } from "formik";
 import TextField from "@/components/TextField";
+import { ErrorMessages, ErrorType } from "@/utils/types";
 
 const validationSchema = Yup.object().shape({
   oldPassword: Yup.string().required("Trường này không được để trống !"),
   newPassword: Yup.string().required("Trường này không được để trống !"),
-  reNewPassword: Yup.string().required("Trường này không được để trống !"),
+  reNewPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword")], "Mật khẩu không trùng khớp")
+    .required("Trường này không được để trống !"),
 });
 
 export default function SettingsPage() {
@@ -32,7 +35,16 @@ export default function SettingsPage() {
       .then(() => {
         Snackbar?.open("Đổi mật khẩu thành công", "success");
       })
-      .catch(() => {
+      .catch((error: any) => {
+        if (error.response?.data?.error === ErrorType.USER_NOT_FOUND) {
+          return Snackbar?.open(ErrorMessages.USER_NOT_FOUND, "error");
+        }
+        if (error.response?.data?.error === ErrorType.USERNAME_OR_PASSWORD_INCORRECT) {
+          return Snackbar?.open(ErrorMessages.USERNAME_OR_PASSWORD_INCORRECT, "error");
+        }
+        if (error.response?.data?.error === ErrorType.USER_NOT_ACTIVE) {
+          return Snackbar?.open(ErrorMessages.USER_NOT_ACTIVE, "error");
+        }
         Snackbar?.open("Đổi mật khẩu thất bại", "error");
       });
   };

@@ -9,7 +9,7 @@ import { useContext, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { AuthType } from "@/utils/types";
+import { AuthType, ErrorMessages, ErrorType } from "@/utils/types";
 import { request } from "@/utils/request";
 import { navigate } from "@/utils/actions";
 import TextField from "@/components/TextField";
@@ -52,11 +52,16 @@ export default function LoginPage() {
         Snackbar?.open("Đăng nhập thất bại", "error");
       }
     } catch (error: any) {
-      if (error.response.status === 401) {
-        Snackbar?.open("Tài khoản hoặc mật khẩu không chính xác", "error");
-      } else {
-        Snackbar?.open("Đăng nhập thất bại", "error");
+      if (error.response?.data?.error === ErrorType.USER_NOT_FOUND) {
+        return Snackbar?.open(ErrorMessages.USER_NOT_FOUND, "error");
       }
+      if (error.response?.data?.error === ErrorType.USERNAME_OR_PASSWORD_INCORRECT) {
+        return Snackbar?.open(ErrorMessages.USERNAME_OR_PASSWORD_INCORRECT, "error");
+      }
+      if (error.response?.data?.error === ErrorType.USER_NOT_ACTIVE) {
+        return Snackbar?.open(ErrorMessages.USER_NOT_ACTIVE, "error");
+      }
+      Snackbar?.open("Đăng nhập thất bại", "error");
     }
     setLoading(false);
   };

@@ -79,3 +79,15 @@ export enum ViolationStatus {
   INPROGRESS = "INPROGRESS",
   COMPLETED = "COMPLETED",
 }
+
+export enum ErrorType {
+  USER_NOT_FOUND = "user-not-found",
+  USERNAME_OR_PASSWORD_INCORRECT = "username-or-password-incorrect",
+  USER_NOT_ACTIVE = "user-not-active",
+}
+
+export enum ErrorMessages {
+  USER_NOT_FOUND = "Không tìm thấy người dùng",
+  USERNAME_OR_PASSWORD_INCORRECT = "Tài khoản hoặc mật khẩu không chính xác",
+  USER_NOT_ACTIVE = "Tài khoản bị khóa",
+}
