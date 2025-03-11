@@ -61,6 +61,17 @@ const dataset: DataSet[] = [
   },
 ];
 
+function removeEmpty(obj: any) {
+  return Object.keys(obj)
+    .filter(function (k) {
+      if (obj[k] !== "") return obj[k];
+    })
+    .reduce((acc: any, k: any) => {
+      acc[k] = typeof obj[k] === "object" ? removeEmpty(obj[k]) : obj[k];
+      return acc;
+    }, {});
+}
+
 export default function ViolationPage() {
   const Snackbar = useContext(SnackbarContext);
   //====================================== State ======================================
@@ -92,7 +103,7 @@ export default function ViolationPage() {
   }, [filter, page, rowsPerPage, search, sort]);
   //====================================== Callback ======================================
   const getViolations = useCallback(() => {
-    query("/violation", filterAll)
+    query("/violation", removeEmpty(filterAll))
       .then((data: any) => {
         if (data) {
           if (data.data) {

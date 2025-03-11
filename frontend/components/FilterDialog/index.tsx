@@ -71,7 +71,6 @@ export default function ViolationTypeDialog({ filter, open, setOpen, handleSubmi
   useEffect(() => {
     getViolations();
   }, [getViolations]);
-  console.log(filter);
   //====================================== Render ======================================
   return open ? (
     <div className="bg-[#11182740] fixed top-0 right-0 left-0 bottom-0 z-[998] flex justify-center items-center" onClick={onClick}>
