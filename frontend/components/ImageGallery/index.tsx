@@ -59,7 +59,7 @@ export const ImageGallery = ({ open, setOpen }: Props) => {
                 </button>
               </div>
               <TransformComponent>
-                <Image src={`/${files[image]}`} width={500} height={500} alt={""} />
+                <Image src={`/${files[image]}.jpg`} width={500} height={500} alt={""} />
               </TransformComponent>
             </>
           )}

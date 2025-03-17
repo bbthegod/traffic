@@ -139,7 +139,7 @@ export default function ViolationPage() {
   const downloadDocument = () => {
     files.forEach((item) => {
       const link = document.createElement("a");
-      link.href = `/${item}`;
+      link.href = `/${item}.docx`;
       link.download = item;
       document.body.appendChild(link);
       link.click();

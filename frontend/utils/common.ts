@@ -1,12 +1,12 @@
 import { Status, VehicleType, ViolationStatus } from "./types";
 
 export const files = [
-  "bb1_giao_quyen.jpg",
-  "bb2_de_xuat_mu_bao_hiem.jpg",
-  "bb3_qd_xphc.jpg",
-  "bb4_tich_thu_tang_vat.jpg",
-  "bb5_qd_tra_lai_tang_vat.jpg",
-  "bb6_tra_lai_tang_vat.jpg",
+  "bb1_giao_quyen",
+  "bb2_de_xuat_mu_bao_hiem",
+  "bb3_qd_xphc",
+  "bb4_tich_thu_tang_vat",
+  "bb5_qd_tra_lai_tang_vat",
+  "bb6_tra_lai_tang_vat",
 ];
 
 export function formatVehicleType(value: string) {

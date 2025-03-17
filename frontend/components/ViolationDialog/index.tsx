@@ -97,7 +97,7 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
   const downloadDocument = () => {
     files.forEach((item) => {
       const link = document.createElement("a");
-      link.href = `/${item}`;
+      link.href = `/${item}.docx`;
       link.download = item;
       document.body.appendChild(link);
       link.click();
