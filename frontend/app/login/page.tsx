@@ -14,6 +14,7 @@ import { request } from "@/utils/request";
 import { navigate } from "@/utils/actions";
 import TextField from "@/components/TextField";
 import { SnackbarContext } from "@/contexts/SnackbarContext";
+import Image from "next/image";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Trường này không được để trống !"),
@@ -72,6 +73,9 @@ export default function LoginPage() {
         <Formik initialValues={{ username: "", password: "" }} validationSchema={validationSchema} onSubmit={onSubmit}>
           {({ errors, touched }) => (
             <Form autoComplete="off">
+              <div className="flex justify-center mb-4">
+                <Image src="/phu_hieu.png" width={50} height={50} alt="logo" className="w-[100px]" />
+              </div>
               <h1 className="font-semibold text-3xl text-center mb-4">ĐĂNG NHẬP</h1>
               <div className="mb-2">
                 <TextField name="username" type="text" label="Tên Đăng Nhập" />

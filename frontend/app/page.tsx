@@ -107,8 +107,16 @@ export default function UserPage() {
           <option value="LOCATION">Báo cáo theo khu vực</option>
         </select>
       </div>
-      {type === "MONTH" && <Bar options={monthOptions} data={monthData} />}
-      {type === "LOCATION" && <Bar options={LocationOptions} data={locationData} />}
+      {type === "MONTH" && (
+        <div className="bg-white p-4">
+          <Bar options={monthOptions} data={monthData} />
+        </div>
+      )}
+      {type === "LOCATION" && (
+        <div className="bg-white p-4">
+          <Bar options={LocationOptions} data={locationData} />
+        </div>
+      )}
     </MainLayout>
   );
 }

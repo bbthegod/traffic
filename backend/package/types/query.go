@@ -8,4 +8,5 @@ type Query struct {
 	TimeStart string
 	TimeEnd   string
 	Location  string
+	PoliceId  string
 }

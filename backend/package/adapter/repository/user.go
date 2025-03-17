@@ -65,7 +65,7 @@ func (repository *userRepository) List(skip int64, limit int64, search string) (
 
 	filter := bson.M{}
 	if search != "" {
-		filter = bson.M{"username": bson.M{"$regex": search, "$options": "im"}}
+		filter = bson.M{"policeId": bson.M{"$regex": search, "$options": "im"}}
 	}
 	opts := options.Find().SetLimit(limit).SetSkip(skip)
 	cursor, err := repository.userCollection.Find(ctx, filter, opts)

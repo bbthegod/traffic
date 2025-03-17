@@ -9,14 +9,15 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 
-import Dialog from "../Dialog";
-import TextField from "../TextField";
-
-import { query } from "@/utils/services";
-import { Status, User, Violation, ViolationStatus } from "@/utils/types";
+import { User, Violation, ViolationStatus } from "@/utils/types";
 import { SnackbarContext } from "@/contexts/SnackbarContext";
+import { files, formatVehicleType } from "@/utils/common";
+import { query } from "@/utils/services";
+
+import { ImageGallery } from "../ImageGallery";
+import TextField from "../TextField";
 import Select from "../Select";
-import { formatVehicleType } from "@/utils/common";
+import Dialog from "../Dialog";
 
 interface Props {
   data?: Violation;
@@ -50,7 +51,7 @@ const validationSchema = Yup.object().shape({
   locationCity: Yup.string().required("Trường này không được để trống !"),
   officerComment: Yup.string(),
   driverComment: Yup.string(),
-  itemsKepp: Yup.string(),
+  itemsKeep: Yup.string(),
   penalty: Yup.string().required("Trường này không được để trống !"),
   status: Yup.string().required("Trường này không được để trống !"),
 });
@@ -59,6 +60,7 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
   const Snackbar = useContext(SnackbarContext);
   const [violationType, setViolationType] = useState([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [openGallery, setOpenGallery] = useState(false);
   //====================================== Const ======================================
   const getViolationType = useCallback(() => {
     query("/violation-type/all")
@@ -87,10 +89,20 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
     handleSubmit({
       ...data,
       ...values,
-      ...{ status: values.status === true ? Status.ACTIVE : Status.INACTIVE },
       ...{ violationDate: new Date(values.violationDate) },
     });
     setOpen(false);
+  };
+
+  const downloadDocument = () => {
+    files.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = `/${item}`;
+      link.download = item;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
   };
   //====================================== Effect ======================================
   useEffect(() => {
@@ -120,12 +132,12 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
             locationCity: data ? data.locationCity : "",
             officerComment: data ? data.officerComment : "",
             driverComment: data ? data.driverComment : "",
-            itemsKepp: data ? data.itemsKepp : "",
+            itemsKeep: data ? data.itemsKeep : "",
             penalty: data ? data.penalty : "",
             vehicleName: data ? data.vehicleName : "",
             violationDate: data ? getCurrentTime(data.violationDate) : getCurrentTime(),
             violationType: data ? data.violationType : "",
-            status: data ? data.status === ViolationStatus.CREATED : true,
+            status: data ? data.status : ViolationStatus.CREATED,
           }}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
@@ -203,7 +215,7 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
                       <TextField name="driverComment" label="Ý Kiến Người Vi Phạm" type="text" />
                     </div>
                     <div>
-                      <TextField name="itemsKepp" label="Tang Vật/Giấy Tờ Bắt Giữ" type="text" />
+                      <TextField name="itemsKeep" label="Tang Vật/Giấy Tờ Bắt Giữ" type="text" />
                     </div>
                     <div>
                       <TextField name="penalty" label="Mức Phạt" type="number" />
@@ -218,6 +230,20 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
                   </div>
                 </div>
                 <div className="flex gap-4 mt-4 justify-end">
+                  <button className="btn btn-primary" type="button" onClick={() => setOpenGallery(true)}>
+                    <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                  </button>
+                  <button className="btn btn-primary" type="button" onClick={() => downloadDocument()}>
+                    Tải mẫu biên bản
+                  </button>
+                  <div className="flex-1" />
                   <button className="btn btn-ghost" type="button" onClick={() => setOpen(false)}>
                     Đóng
                   </button>
@@ -230,6 +256,7 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
           )}
         </Formik>
       </div>
+      <ImageGallery open={openGallery} setOpen={setOpenGallery} />
     </Dialog>
   );
 }
@@ -248,31 +275,33 @@ const AutocompleteViolationType = (props: AutocompleteProps) => {
   const ref = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    const values = field.value.map((item: any) => {
-      if (typeof item === "object") {
-        return item._id;
-      }
-      return item;
-    });
-    const displayName = field.value
-      .map((item: any) => {
+    if (field.value) {
+      const values = field.value.map((item: any) => {
         if (typeof item === "object") {
-          return item.name;
-        }
-        if (typeof item === "string") {
-          return props.data.find((i: any) => i._id === item)?.name;
+          return item._id;
         }
         return item;
-      })
-      .join(", ");
-    const event = {
-      target: {
-        name: props.name,
-        value: values,
-      },
-    };
-    field.onChange(event);
-    setResults(displayName);
+      });
+      const displayName = field.value
+        .map((item: any) => {
+          if (typeof item === "object") {
+            return item.name;
+          }
+          if (typeof item === "string") {
+            return props.data.find((i: any) => i._id === item)?.name;
+          }
+          return item;
+        })
+        .join(", ");
+      const event = {
+        target: {
+          name: props.name,
+          value: values,
+        },
+      };
+      field.onChange(event);
+      setResults(displayName);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 

@@ -40,12 +40,14 @@ func GetQueries(c *gin.Context) (types.Query, error) {
 	timeStart := c.DefaultQuery("timeStart", "")
 	timeEnd := c.DefaultQuery("timeEnd", "")
 	location := c.DefaultQuery("location", "")
+	policeId := c.DefaultQuery("policeId", "")
 	query.Limit = limit
 	query.Skip = skip
 	query.Sort = sort
 	query.TimeStart = timeStart
 	query.TimeEnd = timeEnd
 	query.Location = location
+	query.PoliceId = policeId
 	if search != "" {
 		query.Search = search
 	}

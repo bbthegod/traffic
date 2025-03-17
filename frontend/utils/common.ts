@@ -1,4 +1,13 @@
-import { Status, VehicleType } from "./types";
+import { Status, VehicleType, ViolationStatus } from "./types";
+
+export const files = [
+  "bb1_giao_quyen.jpg",
+  "bb2_de_xuat_mu_bao_hiem.jpg",
+  "bb3_qd_xphc.jpg",
+  "bb4_tich_thu_tang_vat.jpg",
+  "bb5_qd_tra_lai_tang_vat.jpg",
+  "bb6_tra_lai_tang_vat.jpg",
+];
 
 export function formatVehicleType(value: string) {
   if (value === VehicleType.CAR) {
@@ -23,6 +32,19 @@ export function formatStatus(value: string) {
   }
   if (value === Status.INACTIVE) {
     return "Khóa";
+  }
+  return "";
+}
+
+export function formatViolationStatus(value: string) {
+  if (value === ViolationStatus.CREATED) {
+    return "Khởi Tạo";
+  }
+  if (value === ViolationStatus.INPROGRESS) {
+    return "Đang Xử Lý";
+  }
+  if (value === ViolationStatus.COMPLETED) {
+    return "Đã Xử Lý";
   }
   return "";
 }

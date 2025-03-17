@@ -14,7 +14,7 @@ type violationUsecase struct {
 
 type Violation interface {
 	Report() (*model.ViolationReport, int, error)
-	List(skip int64, limit int64, search string, sort string, timeStart string, timeEnd string, location string) ([]*model.Violation, int64, int, error)
+	List(skip int64, limit int64, search string, sort string, timeStart string, timeEnd string, location string, policeId string) ([]*model.Violation, int64, int, error)
 	GetOne(id primitive.ObjectID) (*model.Violation, int, error)
 	Create(violation *model.Violation) (*model.Violation, int, error)
 	Update(id primitive.ObjectID, violation *model.Violation) (*model.Violation, int, error)
@@ -34,8 +34,8 @@ func (usecase *violationUsecase) Report() (*model.ViolationReport, int, error) {
 	return res, http.StatusOK, nil
 }
 
-func (usecase *violationUsecase) List(skip int64, limit int64, search string, sort string, timeStart string, timeEnd string, location string) ([]*model.Violation, int64, int, error) {
-	res, count, code, err := usecase.violationRepository.List(skip, limit, search, sort, timeStart, timeEnd, location)
+func (usecase *violationUsecase) List(skip int64, limit int64, search string, sort string, timeStart string, timeEnd string, location string, policeId string) ([]*model.Violation, int64, int, error) {
+	res, count, code, err := usecase.violationRepository.List(skip, limit, search, sort, timeStart, timeEnd, location, policeId)
 	if err != nil {
 		return nil, 0, code, err
 	}

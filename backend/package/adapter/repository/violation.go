@@ -82,7 +82,7 @@ func (repository *violationRepository) Report() (*model.ViolationReport, int, er
 	return &result, 0, nil
 }
 
-func (repository *violationRepository) List(skip int64, limit int64, search string, sort string, timeStart string, timeEnd string, location string) ([]*model.Violation, int64, int, error) {
+func (repository *violationRepository) List(skip int64, limit int64, search string, sort string, timeStart string, timeEnd string, location string, policeId string) ([]*model.Violation, int64, int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -110,7 +110,7 @@ func (repository *violationRepository) List(skip int64, limit int64, search stri
 		"locationCity":              1,
 		"officerComment":            1,
 		"driverComment":             1,
-		"itemsKepp":                 1,
+		"itemsKeep":                 1,
 		"penalty":                   1,
 		"status":                    1,
 	}}
@@ -133,7 +133,15 @@ func (repository *violationRepository) List(skip int64, limit int64, search stri
 	if location != "" {
 		filter["locationDistrict"] = location
 	}
+	if policeId != "" {
+		id, err := primitive.ObjectIDFromHex(policeId)
+		if err != nil {
+			return nil, 0, http.StatusInternalServerError, err
+		}
+		filter["officerId"] = id
+	}
 	aggregateFilter := []bson.M{
+		{"$match": filter},
 		{"$lookup": bson.M{
 			"from":         "users",
 			"localField":   "officerId",
@@ -147,7 +155,6 @@ func (repository *violationRepository) List(skip int64, limit int64, search stri
 			"foreignField": "_id",
 			"as":           "violationType",
 		}},
-		{"$match": filter},
 		projection,
 	}
 
@@ -201,7 +208,7 @@ func (repository *violationRepository) GetOne(id primitive.ObjectID) (*model.Vio
 		"locationCity":              1,
 		"officerComment":            1,
 		"driverComment":             1,
-		"itemsKepp":                 1,
+		"itemsKeep":                 1,
 		"penalty":                   1,
 		"status":                    1,
 	}}
@@ -285,7 +292,7 @@ func (repository *violationRepository) Update(id primitive.ObjectID, violation *
 		"locationCity":      violation.LocationCity,
 		"officerComment":    violation.OfficerComment,
 		"driverComment":     violation.DriverComment,
-		"itemsKepp":         violation.ItemsKepp,
+		"itemsKeep":         violation.ItemsKeep,
 		"penalty":           violation.Penalty,
 		"status":            violation.Status,
 	}

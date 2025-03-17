@@ -24,7 +24,7 @@ type Violation struct {
 	LocationCity      string             `json:"locationCity,omitempty" bson:"locationCity,omitempty"`
 	OfficerComment    string             `json:"officerComment,omitempty" bson:"officerComment,omitempty"`
 	DriverComment     string             `json:"driverComment,omitempty" bson:"driverComment,omitempty"`
-	ItemsKepp         string             `json:"itemsKepp,omitempty" bson:"itemsKepp,omitempty"`
+	ItemsKeep         string             `json:"itemsKeep,omitempty" bson:"itemsKeep,omitempty"`
 	Penalty           int                `json:"penalty,omitempty" bson:"penalty,omitempty"`
 	Status            string             `json:"status,omitempty" bson:"status,omitempty"`
 }
@@ -58,7 +58,7 @@ type ViolationBodyParams struct {
 	LocationCity      string               `json:"locationCity" bson:"locationCity,omitempty"`
 	OfficerComment    string               `json:"officerComment" bson:"officerComment,omitempty"`
 	DriverComment     string               `json:"driverComment" bson:"driverComment,omitempty"`
-	ItemsKepp         string               `json:"itemsKepp" bson:"itemsKepp,omitempty"`
+	ItemsKeep         string               `json:"itemsKeep" bson:"itemsKeep,omitempty"`
 	Penalty           int                  `json:"penalty" bson:"penalty,omitempty"`
 	Status            string               `json:"status" bson:"status,omitempty"`
 }

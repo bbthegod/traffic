@@ -121,7 +121,7 @@ export default function ViolationTypePage() {
   return (
     <MainLayout>
       <Header setOpen={setOpen} title="Loại vi phạm" subtitle="Quản lý" />
-      <SearchBar search={search} setSearch={setSearch} />
+      <SearchBar placeholder="Tên vi phạm" search={search} setSearch={setSearch} />
       <DataTable
         title="violation-type"
         dataset={dataset}

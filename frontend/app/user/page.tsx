@@ -118,7 +118,7 @@ export default function UserPage() {
   return (
     <MainLayout>
       <Header setOpen={setOpen} title="Cán Bộ" subtitle="Quản lý" />
-      <SearchBar search={search} setSearch={setSearch} />
+      <SearchBar placeholder="Số hiệu cán bộ" search={search} setSearch={setSearch} />
       <DataTable
         title="user"
         dataset={dataset}

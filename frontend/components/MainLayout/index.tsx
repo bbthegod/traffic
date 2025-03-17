@@ -33,9 +33,9 @@ export default function MainLayout(props: Props) {
   }, []);
 
   return (
-    <div className="w-full min-h-screen flex">
+    <div className="w-full min-h-screen flex background">
       <SideBar />
-      <main className="w-full min-h-screen pt-24 md:pt-6 md:pl-24 p-6">{props.children}</main>
+      <main className="w-full min-h-screen pt-24 md:pt-6 md:pl-24 p-6 z-[10]">{props.children}</main>
     </div>
   );
 }

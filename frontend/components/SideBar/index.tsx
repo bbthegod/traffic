@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { navigate } from "@/utils/actions";
+import Image from "next/image";
 
 const pages = [
   {
@@ -76,6 +77,9 @@ export default function SideBar() {
   return (
     <div className="p-4 fixed w-full md:w-fit h-fit md:h-screen z-[900]" onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <div className="p-2 bg-base-100 shadow-md w-full md:w-fit h-fit md:h-full flex gap-4 flex-row md:flex-col">
+        <div className="flex justify-center">
+          <Image src="/phu_hieu.png" width={50} height={50} alt="logo" className="w-10 h-10" />
+        </div>
         <div className="flex flex-row md:flex-col gap-4 grow overflow-hidden">
           {pages.map((page: any) => (
             <div

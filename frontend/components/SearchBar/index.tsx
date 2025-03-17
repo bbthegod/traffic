@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 interface Props {
   search: string;
   setSearch: any;
+  placeholder?: string;
 }
 
 const useDebounce = (value: string, timeout: number) => {
@@ -19,7 +20,7 @@ const useDebounce = (value: string, timeout: number) => {
   return state;
 };
 
-export default function SearchBar({ search, setSearch }: Props) {
+export default function SearchBar({ search, placeholder, setSearch }: Props) {
   const [s, setS] = useState(search);
   const v = useDebounce(s, 1000);
 
@@ -38,7 +39,7 @@ export default function SearchBar({ search, setSearch }: Props) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
         </svg>
 
-        <input className="h-6 color-primary grow border-0 focus-visible:outline-0" value={s} onChange={handleChange} />
+        <input placeholder={placeholder} className="h-6 color-primary grow border-0 focus-visible:outline-0" value={s} onChange={handleChange} />
       </div>
     </div>
   );

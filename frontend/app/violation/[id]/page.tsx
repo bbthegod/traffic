@@ -17,7 +17,7 @@ import ContentDetail from "@/components/ContentDetail";
 import Header from "@/components/Header";
 import MainLayout from "@/components/MainLayout";
 import ViolationDialog from "@/components/ViolationDialog";
-import { formatCurrency } from "@/utils/common";
+import { formatCurrency, formatViolationStatus } from "@/utils/common";
 
 const dataset: DataSet[] = [
   {
@@ -69,7 +69,7 @@ const dataset: DataSet[] = [
   },
   {
     title: "Tang Vật/Giấy Tờ Bắt Giữ",
-    value: "itemsKepp",
+    value: "itemsKeep",
     type: "string",
   },
   {
@@ -77,6 +77,12 @@ const dataset: DataSet[] = [
     value: "penalty",
     type: "string",
     format: formatCurrency,
+  },
+  {
+    title: "Trạng Thái",
+    value: "status",
+    type: "status",
+    format: formatViolationStatus,
   },
 ];
 

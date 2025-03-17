@@ -8,9 +8,10 @@ interface Props {
   title: string;
   subtitle: string;
   setOpen?: (v: any) => void;
+  children?: any;
 }
 
-export default function Header({ setOpen, title, subtitle }: Props) {
+export default function Header({ setOpen, title, subtitle, children }: Props) {
   return (
     <div className="w-full flex flex-wrap md:flex-row gap-4">
       <div className="grow">
@@ -23,6 +24,7 @@ export default function Header({ setOpen, title, subtitle }: Props) {
             Tạo Mới
           </button>
         )}
+        {children}
       </div>
     </div>
   );

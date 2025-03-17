@@ -46,7 +46,8 @@ func (controller *violationController) List(ctx *gin.Context) error {
 		return err
 	}
 
-	res, count, code, err := controller.violationUsecase.List(query.Skip, query.Limit, query.Search, query.Sort, query.TimeStart, query.TimeEnd, query.Location)
+	res, count, code, err := controller.violationUsecase.List(query.Skip, query.Limit, query.Search, query.Sort, query.TimeStart, query.TimeEnd, query.Location,
+		query.PoliceId)
 	if err != nil {
 		ctx.JSON(code, types.Response{Error: err.Error()})
 		return err
@@ -100,7 +101,7 @@ func (controller *violationController) Create(ctx *gin.Context) error {
 	violation.LocationCity = params.LocationCity
 	violation.OfficerComment = params.OfficerComment
 	violation.DriverComment = params.DriverComment
-	violation.ItemsKepp = params.ItemsKepp
+	violation.ItemsKeep = params.ItemsKeep
 	violation.Penalty = params.Penalty
 	violation.Status = params.Status
 
@@ -148,7 +149,7 @@ func (controller *violationController) Update(ctx *gin.Context) error {
 	violation.LocationCity = params.LocationCity
 	violation.OfficerComment = params.OfficerComment
 	violation.DriverComment = params.DriverComment
-	violation.ItemsKepp = params.ItemsKepp
+	violation.ItemsKeep = params.ItemsKeep
 	violation.Penalty = params.Penalty
 	violation.Status = params.Status
 

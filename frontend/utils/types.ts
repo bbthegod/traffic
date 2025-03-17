@@ -58,7 +58,7 @@ export interface Violation {
   locationCity: string;
   officerComment: string;
   driverComment: string;
-  itemsKepp: string;
+  itemsKeep: string;
   penalty: number;
   status?: ViolationStatus;
 }
