@@ -362,7 +362,7 @@ const AutocompleteViolationType = (props: AutocompleteProps) => {
                     setOpen(false);
                   }}
                 >
-                  <a className={`cursor-pointer ${field.value?.some((i: any) => i === item._id) ? "active" : ""}`}>{`${
+                  <a className={`cursor-pointer ${field.value && field.value?.some((i: any) => i === item._id) ? "active" : ""}`}>{`${
                     item.name
                   } - ${formatVehicleType(item.vehicleType)}`}</a>
                 </li>
