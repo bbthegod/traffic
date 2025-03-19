@@ -348,7 +348,7 @@ const AutocompleteViolationType = (props: AutocompleteProps) => {
   );
 };
 
-const AutocompleteUser = (props: AutocompleteProps) => {
+export const AutocompleteUser = (props: AutocompleteProps) => {
   const [field, meta] = useField(props.name);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -365,7 +365,11 @@ const AutocompleteUser = (props: AutocompleteProps) => {
       field.onChange(event);
       setSearch(`${field.value.policeId} - ${field.value.name} - ${field.value.position}`);
     }
-  }, [open, field, props.name]);
+    if (typeof field.value === "string") {
+      const item = props.data.find((i: any) => i._id === field.value);
+      if (item) setSearch(`${item?.policeId} - ${item?.name} - ${item?.position}`);
+    }
+  }, [open, field, props.name, props.data]);
 
   return (
     <div className="form-control w-full">

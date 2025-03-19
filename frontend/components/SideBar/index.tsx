@@ -89,7 +89,8 @@ export default function SideBar() {
                 pathname
                   .split("/")
                   .filter(Boolean)
-                  .some((v: any) => v === page.href.replace("/", ""))
+                  .some((v: any) => v === page.href.replace("/", "")) ||
+                (pathname === page.href && page.href === "/")
                   ? "text-success"
                   : "text-primary"
               }`}
