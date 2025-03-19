@@ -1,6 +1,8 @@
 import { Status, VehicleType, ViolationStatus } from "./types";
 
-export const files = [
+export const files_record = ["giao_quyen", "bb_vphc", "qd_vphc", "qd_tam_giu"];
+
+export const images_record = [
   "bb1_giao_quyen",
   "bb2_de_xuat_mu_bao_hiem",
   "bb3_qd_xphc",

@@ -7,8 +7,9 @@
 "use client";
 import { useRef, useState } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { files } from "@/utils/common";
 import Image from "next/image";
+
+import { images_record } from "@/utils/common";
 
 interface Props {
   open: boolean;
@@ -59,7 +60,7 @@ export const ImageGallery = ({ open, setOpen }: Props) => {
                 </button>
               </div>
               <TransformComponent>
-                <Image src={`/${files[image]}.jpg`} width={500} height={500} alt={""} />
+                <Image src={`/${images_record[image]}.jpg`} width={500} height={500} alt={""} />
               </TransformComponent>
             </>
           )}

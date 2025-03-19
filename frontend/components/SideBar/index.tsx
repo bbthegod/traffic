@@ -74,6 +74,7 @@ export default function SideBar() {
       setAuth(a);
     }
   }, []);
+
   return (
     <div className="p-4 fixed w-full md:w-fit h-fit md:h-screen z-[900]" onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <div className="p-2 bg-base-100 shadow-md w-full md:w-fit h-fit md:h-full flex gap-4 flex-row md:flex-col">
@@ -85,7 +86,12 @@ export default function SideBar() {
             <div
               key={page.href}
               className={`min-w-10 w-full h-10 flex gap-2 px-2 ${!open && "justify-center"} items-center cursor-pointer hover:bg-[#ff980020] ${
-                pathname === page.href ? "text-success" : "text-primary"
+                pathname
+                  .split("/")
+                  .filter(Boolean)
+                  .some((v: any) => v === page.href.replace("/", ""))
+                  ? "text-success"
+                  : "text-primary"
               }`}
               onClick={() => navigate(page.href)}
             >
@@ -98,7 +104,7 @@ export default function SideBar() {
             className={`min-w-10 w-full h-10 flex gap-2 px-2 ${!open && "justify-center"} items-center cursor-pointer hover:bg-[#ff980020]`}
             onClick={() => navigate("/settings")}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

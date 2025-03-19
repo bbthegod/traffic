@@ -11,10 +11,9 @@ import * as Yup from "yup";
 
 import { User, Violation, ViolationStatus } from "@/utils/types";
 import { SnackbarContext } from "@/contexts/SnackbarContext";
-import { files, formatVehicleType } from "@/utils/common";
+import { formatVehicleType } from "@/utils/common";
 import { query } from "@/utils/services";
 
-import { ImageGallery } from "../ImageGallery";
 import TextField from "../TextField";
 import Select from "../Select";
 import Dialog from "../Dialog";
@@ -60,7 +59,6 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
   const Snackbar = useContext(SnackbarContext);
   const [violationType, setViolationType] = useState([]);
   const [users, setUsers] = useState<User[]>([]);
-  const [openGallery, setOpenGallery] = useState(false);
   //====================================== Const ======================================
   const getViolationType = useCallback(() => {
     query("/violation-type/all")
@@ -94,16 +92,6 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
     setOpen(false);
   };
 
-  const downloadDocument = () => {
-    files.forEach((item) => {
-      const link = document.createElement("a");
-      link.href = `/${item}.docx`;
-      link.download = item;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-  };
   //====================================== Effect ======================================
   useEffect(() => {
     if (open) {
@@ -230,20 +218,6 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
                   </div>
                 </div>
                 <div className="flex gap-4 mt-4 justify-end">
-                  <button className="btn btn-primary" type="button" onClick={() => setOpenGallery(true)}>
-                    <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                      />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                  </button>
-                  <button className="btn btn-primary" type="button" onClick={() => downloadDocument()}>
-                    Tải mẫu biên bản
-                  </button>
-                  <div className="flex-1" />
                   <button className="btn btn-ghost" type="button" onClick={() => setOpen(false)}>
                     Đóng
                   </button>
@@ -256,7 +230,6 @@ export default function ViolationDialog({ open, setOpen, data, handleSubmit }: P
           )}
         </Formik>
       </div>
-      <ImageGallery open={openGallery} setOpen={setOpenGallery} />
     </Dialog>
   );
 }

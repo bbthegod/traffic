@@ -23,6 +23,9 @@ func ViolationRoute(router *gin.Engine, c controller.AppController) {
 		users.GET(":id", func(context *gin.Context) {
 			c.Violation.GetOne(context)
 		})
+	}
+	users.Use(middleware.Authentication("admin", c))
+	{
 		users.PUT(":id", func(context *gin.Context) {
 			c.Violation.Update(context)
 		})

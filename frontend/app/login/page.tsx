@@ -63,15 +63,17 @@ export default function LoginPage() {
         return Snackbar?.open(ErrorMessages.USER_NOT_ACTIVE, "error");
       }
       Snackbar?.open("Đăng nhập thất bại", "error");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
   //====================================== Render ======================================
   return (
-    <div className="grow flex flex-col justify-center items-center">
-      <div className="p-6 w-[400px]">
+    <div className="relative grow flex flex-col justify-center items-center">
+      <Image src="/flag.png" width={1000} height={1000} alt="logo" className="absolute z-[0] top-0 right-0" />
+      <div className="p-6 w-[400px] z-[1]">
         <Formik initialValues={{ username: "", password: "" }} validationSchema={validationSchema} onSubmit={onSubmit}>
-          {({ errors, touched }) => (
+          {({ isValid }) => (
             <Form autoComplete="off">
               <div className="flex justify-center mb-4">
                 <Image src="/phu_hieu.png" width={50} height={50} alt="logo" className="w-[100px]" />
@@ -106,15 +108,9 @@ export default function LoginPage() {
                 </button>
                 <p className="text-sm font-semibold">{showPassword ? "Ẩn" : "Hiện"} mật khẩu</p>
               </div>
-              <div className="">
-                <button
-                  className={`btn btn-primary btn-block ${loading ? "loading" : ""}`}
-                  type="submit"
-                  disabled={loading || !!errors.password || !!errors.username || !touched.password || !touched.username}
-                >
-                  ĐĂNG NHẬP
-                </button>
-              </div>
+              <button className={`btn btn-primary btn-block ${loading ? "loading" : ""}`} type="submit" disabled={loading || !isValid}>
+                ĐĂNG NHẬP
+              </button>
             </Form>
           )}
         </Formik>

@@ -144,6 +144,7 @@ export default function ViolationDetail({ params }: any) {
   const { id }: any = use(params);
   const Snackbar = useContext(SnackbarContext);
   //====================================== State ======================================
+  const [auth, setAuth] = useState<any>({});
   const [removeDialog, setRemoveDialog] = useState(false);
   const [editDialog, setEditDialog] = useState(false);
   const [violaion, setViolation] = useState<Violation>();
@@ -188,6 +189,13 @@ export default function ViolationDetail({ params }: any) {
       getViolation();
     }
   }, [Snackbar, getViolation, id]);
+
+  useEffect(() => {
+    if (localStorage) {
+      const a = localStorage.getItem("auth") ? JSON.parse(localStorage.getItem("auth") ?? "{}") : {};
+      setAuth(a);
+    }
+  }, []);
   //====================================== Render ======================================
   if (!violaion) return null;
   return (
@@ -195,7 +203,7 @@ export default function ViolationDetail({ params }: any) {
       <Header subtitle="Thông Tin Vi Phạm" title="" />
       <div className="mt-6 w-full flex flex-wrap flex-col-reverse md:flex-row gap-4 justify-center">
         <ContentDetail title="Thông tin vi phạm" dataset={dataset} data={violaion}>
-          <button onClick={() => setEditDialog(true)} className="text-[#2196f3] btn btn-ghost btn-sm w-fit">
+          <button onClick={() => setEditDialog(true)} className="text-[#2196f3] btn btn-ghost btn-sm w-fit" disabled={auth?.role === "user"}>
             <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-2">
               <path
                 strokeLinecap="round"
@@ -205,7 +213,7 @@ export default function ViolationDetail({ params }: any) {
             </svg>
             Sửa
           </button>
-          <button onClick={() => setRemoveDialog(true)} className="text-[#f44336] btn btn-ghost btn-sm w-fit">
+          <button onClick={() => setRemoveDialog(true)} className="text-[#f44336] btn btn-ghost btn-sm w-fit" disabled={auth?.role === "user"}>
             <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-2">
               <path
                 strokeLinecap="round"

@@ -7,20 +7,18 @@
 "use client";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 
-import { User, DataSet } from "@/utils/types";
+import { files_record, formatViolationStatus } from "@/utils/common";
 import { SnackbarContext } from "@/contexts/SnackbarContext";
-// import { BASE_URL, DataSet, SnackbarContext, User } from '@its/common';
-
-import { mutation, query } from "@/utils/services";
-import SearchBar from "@/components/SearchBar";
-import DataTable from "@/components/DataTable";
-import Header from "@/components/Header";
-import MainLayout from "@/components/MainLayout";
 import ViolationDialog from "@/components/ViolationDialog";
-import { files, formatViolationStatus } from "@/utils/common";
-import FilterDialog from "@/components/FilterDialog";
 import { ImageGallery } from "@/components/ImageGallery";
 import ExportToExcel from "@/components/ExportToExcel";
+import FilterDialog from "@/components/FilterDialog";
+import { mutation, query } from "@/utils/services";
+import MainLayout from "@/components/MainLayout";
+import SearchBar from "@/components/SearchBar";
+import DataTable from "@/components/DataTable";
+import { User, DataSet } from "@/utils/types";
+import Header from "@/components/Header";
 
 const dataset: DataSet[] = [
   {
@@ -137,7 +135,7 @@ export default function ViolationPage() {
   };
 
   const downloadDocument = () => {
-    files.forEach((item) => {
+    files_record.forEach((item) => {
       const link = document.createElement("a");
       link.href = `/${item}.docx`;
       link.download = item;
@@ -179,7 +177,7 @@ export default function ViolationPage() {
           </svg>
         </button>
         <button className="ml-2 btn btn-primary" onClick={downloadDocument}>
-          Tải biên bản
+          Tải biên bản mẫu
         </button>
       </Header>
       <SearchBar placeholder="Biển số" search={search} setSearch={setSearch} />
